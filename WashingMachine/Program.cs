@@ -7,18 +7,31 @@ namespace WashingMachine
 
         static void Main(string[] args)
         {
-            WashingMachine washingPower = new WashingMachine();
-            washingPower.PowerButten();
+            WashingMachine washingMachine = new WashingMachine();
 
-            WashingMachine TheDoor = new WashingMachine();
+            washingMachine.PowerButten();
 
-            if (TheDoor.Door == false)
+            //string userInput = Console.ReadLine();
+
+            //switch (userInput)
+            //{
+            //    case "1":
+            //        washingMachine.OnOrOff = true;
+            //        break;
+            //    case "2":
+            //        washingMachine.OnOrOff = false;
+            //        break;
+            //}
+
+
+
+            if (washingMachine.Door == false)
             {
                 Console.WriteLine("1. Åben doren og leg besidt toj ind");
                 string temp = Console.ReadLine();
                 while (temp == "1")
                 {
-                    TheDoor.Door = true;
+                    washingMachine.Door = true;
                     Console.WriteLine("Besidt tøj blev lagt i vaske maskinen");
 
                     Console.WriteLine("2. for at lukke døren");
@@ -28,45 +41,44 @@ namespace WashingMachine
 
             Console.WriteLine("Velg program.\n1. Hurtig vask (30 min)\n2. Eco vask (1:30 time)\n3. Normal vask (1 time)");
 
-            while (washingPower.OnOrOff == true)
+
+            string userChooseProgram = Console.ReadLine();
+
+            switch (userChooseProgram)
             {
-                string userChooseProgram = Console.ReadLine();
-
-                switch (userChooseProgram)
-                {
-                    case "1":
-                        userChooseProgram = "Hurtig vask";
-                        break;
-                    case "2":
-                        userChooseProgram = "Eco vask";
-                        break;
-                    case "3":
-                        userChooseProgram = "Normal vask";
-                        break;
-                }
-
-                Console.WriteLine("velg temperatur\n1. 30 grader\n2. 40 grader\n3. 60 grader");
-
-                int userChooseTemperature = Convert.ToInt32(Console.ReadLine());
-                
-                switch (userChooseTemperature)
-                {
-                    case 1:
-                        userChooseTemperature = 30;
-                        break;
-                    case 2:
-                        userChooseTemperature = 40;
-                        break;
-                    case 3:
-                        userChooseTemperature = 60;
-                        break;
-                }
-
-                WashingMachine washingMachineProgram = new WashingMachine(userChooseProgram, userChooseTemperature);
-
-                Console.WriteLine(washingMachineProgram.Temperature + "\n" + washingMachineProgram.WashingProgram);
-
+                case "1":
+                    userChooseProgram = "Hurtig vask";
+                    break;
+                case "2":
+                    userChooseProgram = "Eco vask";
+                    break;
+                case "3":
+                    userChooseProgram = "Normal vask";
+                    break;
             }
+
+            washingMachine.WashingProgram = userChooseProgram;
+
+            Console.WriteLine("velg temperatur\n1. 30 grader\n2. 40 grader\n3. 60 grader");
+
+            int userChooseTemperature = Convert.ToInt32(Console.ReadLine());
+
+            switch (userChooseTemperature)
+            {
+                case 1:
+                    userChooseTemperature = 30;
+                    break;
+                case 2:
+                    userChooseTemperature = 40;
+                    break;
+                case 3:
+                    userChooseTemperature = 60;
+                    break;
+            }
+
+            washingMachine.Temperature = userChooseTemperature;
+
+            Console.WriteLine(washingMachine.WashingProgram + "\n" + washingMachine.Temperature + "grader " + "\nDin vask er nu færdig... ");
 
         }
     }
