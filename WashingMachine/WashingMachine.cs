@@ -13,7 +13,6 @@ namespace WashingMachine
         private bool door;
         private string washingProgram;
         private int temperature;
-        private int washingPowder;
 
         #endregion
 
@@ -60,12 +59,6 @@ namespace WashingMachine
         {
             get { return this.door; }
             set { this.door = false; }
-        }
-
-        public int WashingPowder
-        {
-            get { return this.washingPowder; }
-            set { this.washingPowder = value; }
         }
 
         public string WashingProgram
