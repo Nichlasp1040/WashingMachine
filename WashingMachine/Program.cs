@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using System.Threading.Channels;
 
 namespace WashingMachine
 {
@@ -7,67 +9,163 @@ namespace WashingMachine
 
         static void Main(string[] args)
         {
-            WashingMachine washingPower = new WashingMachine();
-            washingPower.PowerButten();
+            WashingMachine washing = new WashingMachine();
+            bool loop = true;
 
-            WashingMachine TheDoor = new WashingMachine();
-
-            if (TheDoor.Door == false)
+            while (loop)
             {
-                Console.WriteLine("1. Åben doren og leg besidt toj ind");
-                string temp = Console.ReadLine();
-                while (temp == "1")
-                {
-                    TheDoor.Door = true;
-                    Console.WriteLine("Besidt tøj blev lagt i vaske maskinen");
+                SelectMenu(washing.door, washing.washingPowder, washing.onOrOff, washing.wasingProgram, washing.temperature, washing.start);
 
-                    Console.WriteLine("2. for at lukke døren");
-                    temp = Console.ReadLine();
-                }
-            }
+                string userChooseProgram = null;
+                int userChooseTemperature;
 
-            Console.WriteLine("Velg program.\n1. Hurtig vask (30 min)\n2. Eco vask (1:30 time)\n3. Normal vask (1 time)");
+                string userInput = Console.ReadLine();
 
-            while (washingPower.OnOrOff == true)
-            {
-                string userChooseProgram = Console.ReadLine();
-
-                switch (userChooseProgram)
+                switch (userInput)
                 {
                     case "1":
-                        userChooseProgram = "Hurtig vask";
+                        washing.door = true;
                         break;
+
                     case "2":
-                        userChooseProgram = "Eco vask";
+                        washing.door = false;
                         break;
+
                     case "3":
-                        userChooseProgram = "Normal vask";
+                        washing.onOrOff = true;
+                        break;
+
+                    case "4":
+                        washing.onOrOff = false;
+                        break;
+
+                    case "5":
+                        if (washing.washingPowder == false)
+                        {
+                            Console.WriteLine("There is no washing powder please refill\n" +
+                                "1. to fill");
+                            userInput = Console.ReadLine();
+                            switch (userInput)
+                            {
+                                case "1":
+                                    washing.washingPowder = true;
+                                    break;
+                            }
+
+                        }
+                        break;
+
+                    case "6":
+
+                        Console.WriteLine("Select Program\n" +
+                            "1. Quick Wash\n" +
+                            "2. Eco Wask\n" +
+                            "3. Normal Wash");
+
+                        userChooseProgram = Console.ReadLine();
+
+                        if (userChooseProgram == "1")
+                        {
+                            washing.wasingProgram = "Quck Wask";
+                        }
+                        else if (userChooseProgram == "2")
+                        {
+                            washing.wasingProgram = "Eco Wash";
+                        }
+                        else if (userChooseProgram == "3")
+                        {
+                            washing.wasingProgram = "Normal Wash";
+                        }
+                        break;
+
+                    case "7":
+
+                        Console.WriteLine("Select Temperature\n" +
+                            "1. 30 degrees\n" +
+                            "2. 40 degrees\n" +
+                            "3. 50 degrees");
+
+                        userChooseTemperature = Convert.ToInt32(Console.ReadLine());
+
+                        if (userChooseTemperature == 1)
+                        {
+                            washing.temperature = 30;
+                        }
+                        else if (userChooseTemperature == 2)
+                        {
+                            washing.temperature = 40;
+                        }
+                        else if (userChooseTemperature == 3)
+                        {
+                            washing.temperature = 50;
+                        }
+                        break;
+
+                    case "8":
+                        if (washing.onOrOff == true && washing.door == false && washing.washingPowder == true && washing.wasingProgram != null)
+                        {
+                            washing.start = "Running, go get som coffee while you wait";
+                        }
+                        else
+                        {
+                            washing.start = "You need to check if the mechine can run";
+                        }
+                        break;
+                    case "9":
+                        Environment.Exit(1);
                         break;
                 }
 
-                Console.WriteLine("velg temperatur\n1. 30 grader\n2. 40 grader\n3. 60 grader");
-
-                int userChooseTemperature = Convert.ToInt32(Console.ReadLine());
-                
-                switch (userChooseTemperature)
-                {
-                    case 1:
-                        userChooseTemperature = 30;
-                        break;
-                    case 2:
-                        userChooseTemperature = 40;
-                        break;
-                    case 3:
-                        userChooseTemperature = 60;
-                        break;
-                }
-
-                WashingMachine washingMachineProgram = new WashingMachine(userChooseProgram, userChooseTemperature);
-
-                Console.WriteLine(washingMachineProgram.Temperature + "\n" + washingMachineProgram.WashingProgram);
 
             }
 
         }
+
+        static void SelectMenu(bool door, bool powder, bool power, string program, int temperature, string Run)
+        {
+            Console.Clear();
+
+            string openClose = null;
+            string powderTmp = null;
+            string powerTmp = null;
+
+            if (door == true)
+            {
+                openClose = "Open";
+            }
+            else if (door == false)
+            {
+                openClose = "Closed";
+            }
+
+            if (power == true)
+            {
+                powerTmp = "On";
+            }
+            else if (power == false)
+            {
+                powerTmp = "Off";
+            }
+
+            if (powder == true)
+            {
+                powderTmp = "There is powder";
+            }
+            else if (powder == false)
+            {
+                powderTmp = "Need washing powder";
+            }
+
+            Console.WriteLine("Please select action\n\n" +
+               $"1. open | 2. close the door, the door is {openClose}\n" +
+               $"3. trun on | 4. turn off, it is {powerTmp}\n" +
+               $"5. check washingpowder, {powderTmp}\n" +
+               $"6. select program {program}\n" +
+               $"7. select temperature {temperature}\n" +
+               $"8. Start {Run}\n" +
+               "9. Go get coffee");
+
+        }
+
     }
 }

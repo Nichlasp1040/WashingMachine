@@ -9,94 +9,77 @@ namespace WashingMachine
 
         #region Variables
 
-        private bool onOrOff;
-        private bool door;
-        private string washingProgram;
-        private int temperature;
-        private int washingPowder;
+        private bool OnOrOff;
+        private bool Door;
+        private bool WashingPowder;
+        private string WashingProgram;
+        private string Start;
+        private int Temperature;
 
         #endregion
 
+        public bool onOrOff
+        {
+            get { return OnOrOff; }
+            set { OnOrOff = value; }
+        }
+
+        public bool door
+        {
+            get { return Door; }
+            set { Door = value; }
+        }
+
+        public bool washingPowder
+        {
+            get { return WashingPowder; }
+            set { WashingPowder = value; }
+        }
+
+        public string wasingProgram
+        {
+            get { return WashingProgram; }
+            set { WashingProgram = value; }
+        }
+
+        public int temperature
+        {
+            get { return Temperature; }
+            set { Temperature = value; }
+        }
+
+        public string start
+        {
+            get { return Start; }
+            set { Start = value; }
+        }
+
         public WashingMachine()
         {
-
+            OnOrOff = onOrOff;
+            WashingPowder = IsTherePowder();
+            Door = door;
+            WashingProgram = wasingProgram;
+            Temperature = temperature;
+            Start = start;
         }
 
-        public bool OnOrOff
+        private bool IsTherePowder()
         {
-            get { return this.onOrOff; }
-            set { this.onOrOff = false; }
-        }
+            Random rand = new Random();
+            int tmp = rand.Next(0, 10);
+            bool temp2;
 
-        public bool PowerButten()
-        {
-            if (onOrOff == false)
+            if (tmp < 3)
             {
-                Console.WriteLine("Vaske maskinen er slukket");
+                temp2 = false;
             }
             else
             {
-                Console.WriteLine("Vaske maskinen er tendt");
+                temp2 = true;
             }
 
-            Console.WriteLine("1. Tend");
-
-            string userInput = Console.ReadLine();
-
-            switch (userInput)
-            {
-                case "1":
-                    onOrOff = true;
-                    break;
-                case "2":
-                    onOrOff = false;
-                    break;
-            }
-
-            return onOrOff;
+            return temp2;
         }
-
-        public bool Door
-        {
-            get { return this.door; }
-            set { this.door = false; }
-        }
-
-        public int WashingPowder
-        {
-            get { return this.washingPowder; }
-            set { this.washingPowder = value; }
-        }
-
-        public string WashingProgram
-        {
-            get { return this.washingProgram; }
-            set
-            {
-                if (value == "Hurtig vask" || value == "Eco vask" || value == "Normal vask")
-                {
-                    this.washingProgram = value;
-                }
-            }
-        }
-
-        public int Temperature
-        {
-            get { return this.temperature; }
-            set
-            {
-                if (value == 30 || value == 40 || value == 60)
-                {
-                    this.temperature = value;
-                }
-            }
-        }
-
-        public WashingMachine(string chooseProgram, int ChooseTemperature)
-        {
-            WashingProgram = chooseProgram;
-            Temperature = ChooseTemperature;
-        }
-
     }
 }
